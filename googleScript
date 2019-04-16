@@ -1,0 +1,27 @@
+function doGet(e) {
+  
+  if(typeof e !== 'undefined') {
+    jsonParams = JSON.stringify(e.parameter)
+    var valore = e.parameter.valore;
+    var valuta = e.parameter.valuta; 
+    
+    return ContentService.createTextOutput("HELLO with parameter "+jsonParams+" valore ="+valore);
+  }
+  else
+    return ContentService.createTextOutput("HELLO parameter undifined");
+  
+}
+
+function doPost(e) {
+  
+  if(typeof e !== 'undefined') {
+    jsonParams = JSON.stringify(e.parameter)
+    var valore = e.parameter.valore;
+    var valuta = e.parameter.valuta; 
+    
+    return ContentService.createTextOutput("HELLO with parameter "+jsonParams+" valore ="+valore);
+  }
+  else
+    return ContentService.createTextOutput("HELLO parameter undifined");
+  
+}
