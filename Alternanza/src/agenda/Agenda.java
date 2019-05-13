@@ -107,29 +107,24 @@ public class Agenda {
         }
     }
 
-    public static void deleteImpegno() throws IOException {
-        System.out.println("Scrivi l'id dell'impegno da eliminare");
-        String id = input.readLine();
-        webService.deleteImpegno(id);
-        webService.printResult();
-    }
+//    public static void deleteImpegno() throws IOException {
+//        System.out.println("Scrivi l'id dell'impegno da eliminare");
+//        String id = input.readLine();
+//        webService.deleteImpegno(id);
+//        webService.printResult();
+//    }
 
-    public static void updateImpegno() throws IOException {
-        System.out.println("Scrivi il nome dell'impegno");
-        String nomeImpegno = input.readLine();
-        System.out.println("Scrivi la descrizione dell'impegno");
-        String descrizione = input.readLine();
-        System.out.println("Scrivi la data dell'impegno");
-        String data = input.readLine();
-        System.out.println("Scrivi il luogo dell'impegno");
-        String luogo = input.readLine();
-        System.out.println("Scrivi la/le aula/e dell'impegno");
-        String aule = input.readLine();
-        System.out.println("Scrivi l'ora d'inizio dell'impegno");
-        String oraInizio = input.readLine();
-        System.out.println("Scrivi l'ora di fine dell'impegno");
+    public static void updateAzienda() throws IOException {
+        System.out.println("Scrivi il nome dell'azienda");
+        String nomeAzienda = input.readLine();
+        System.out.println("Scrivi l'indirizzo dell'azienda");
+        String indirizzo = input.readLine();
+        System.out.println("Scrivi l'email dell'azienda");
+        String email = input.readLine();
+        System.out.println("Scrivi il tutor dell'azienda");
+        String tutor = input.readLine();
         String oraFine = input.readLine();
-        webService.updateImpegno(nomeImpegno, descrizione, data, luogo, aule, oraInizio, oraFine);
+        webService.updateAzienda(nomeAzienda, indirizzo, email, tutor);
         webService.printResult();
     }
 
@@ -138,7 +133,7 @@ public class Agenda {
         webService.printResult();
     }
 
-    public static void parseImpegno() throws IOException, ParserConfigurationException, SAXException {
+    public static void parseAzienda() throws IOException, ParserConfigurationException, SAXException {
         System.out.println("Inserisci l'URL: ");
         String url = input.readLine();
 
@@ -179,11 +174,11 @@ public class Agenda {
                 break;
             }
             case 2: {
-                deleteImpegno();
+                //deleteImpegno();
                 break;
             }
             case 3: {
-                updateImpegno();
+                updateAzienda();
                 break;
             }
             case 4: {
@@ -191,7 +186,7 @@ public class Agenda {
                 break;
             }
             case 5: {
-                parseImpegno();
+                parseAzienda();
                 break;
             }
             case 0: {

@@ -299,7 +299,7 @@ public class WSConsumer {
         return status;
     }
 
-    public int updateImpegno(String nome, String descrizione, String data, String luogo, String aule, String oraInizio, String oraFine) {
+    public int updateAzienda(String nome, String indirizzo, String email, String tutor) {
         int status = 0;
         result = "";
 
@@ -309,15 +309,11 @@ public class WSConsumer {
             BufferedReader input;
 
             String url = prefix
-                    + "gestioneImpegni/"
-                    + "addImpegno.php?"
+                    + "updateAzienda.php?"
                     + "nome=" + URLEncoder.encode(nome, "UTF-8")
-                    + "&descrizione=" + URLEncoder.encode(descrizione, "UTF-8")
-                    + "&data=" + URLEncoder.encode(data, "UTF-8")
-                    + "&luogo=" + URLEncoder.encode(luogo, "UTF-8")
-                    + "&aule=" + URLEncoder.encode(aule, "UTF-8")
-                    + "&oraInizio=" + URLEncoder.encode(oraInizio, "UTF-8")
-                    + "&oraFine=" + URLEncoder.encode(oraFine, "UTF-8");
+                    + "&indirizzo=" + URLEncoder.encode(indirizzo, "UTF-8")
+                    + "&email=" + URLEncoder.encode(email, "UTF-8")
+                    + "&tutor=" + URLEncoder.encode(tutor, "UTF-8");
             serverURL = new URL(url);
             System.out.println(url);
             service = (HttpURLConnection) serverURL.openConnection();

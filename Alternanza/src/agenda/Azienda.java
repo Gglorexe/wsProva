@@ -15,7 +15,6 @@ public class Azienda {
     String email;
     String tutor;
     
-    
     public Azienda(String nome, String indirizzo, String email, String tutor){
         this.nome = nome;
         this.indirizzo = indirizzo;
