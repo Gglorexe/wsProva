@@ -129,7 +129,7 @@ public class Agenda {
     }
 
     public static void getAllImpegno() {
-        webService.getAllImpegno();
+        webService.getAllAzienda();
         webService.printResult();
     }
 

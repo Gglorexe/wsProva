@@ -250,54 +250,54 @@ public class WSConsumer {
 //
 //    }
 
-    public int deleteImpegno(String id) {
-        int status = 0;
-        result = "";
-
-        try {
-            URL serverURL;
-            HttpURLConnection service;
-            BufferedReader input;
-
-            String url = prefix + "gestioneImpegni/"
-                    + "deleteImpegno.php?"
-                    + "id=" + URLEncoder.encode(id, "UTF-8");
-            serverURL = new URL(url);
-            System.out.println(url);
-            service = (HttpURLConnection) serverURL.openConnection();
-            // impostazione header richiesta . ftp.gestioneagenda.altervista.org
-            service.setRequestProperty("Host", "ftp.gestioneagenda.altervista.org");
-            service.setRequestProperty("Accept", "application/text");
-            service.setRequestProperty("Accept-Charset", "UTF-8");
-            // impostazione metodo di richiesta GET
-            service.setRequestMethod("GET");
-            // attivazione ricezione
-            service.setDoInput(true);
-            // connessione al web-service
-            service.connect();
-            // verifica stato risposta
-            status = service.getResponseCode();
-            if (status != 200) {
-                return status; // non OK
-            }
-            // apertura stream di ricezione da risorsa web
-            input = new BufferedReader(new InputStreamReader(service.getInputStream(), "UTF-8"));
-            // ciclo di lettura da web e scrittura in result
-            String line;
-            while ((line = input.readLine()) != null) {
-                result += line + "\n";
-            }
-            input.close();
-
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return status;
-    }
+//    public int deleteImpegno(String id) {
+//        int status = 0;
+//        result = "";
+//
+//        try {
+//            URL serverURL;
+//            HttpURLConnection service;
+//            BufferedReader input;
+//
+//            String url = prefix + "gestioneImpegni/"
+//                    + "deleteImpegno.php?"
+//                    + "id=" + URLEncoder.encode(id, "UTF-8");
+//            serverURL = new URL(url);
+//            System.out.println(url);
+//            service = (HttpURLConnection) serverURL.openConnection();
+//            // impostazione header richiesta . ftp.gestioneagenda.altervista.org
+//            service.setRequestProperty("Host", "ftp.gestioneagenda.altervista.org");
+//            service.setRequestProperty("Accept", "application/text");
+//            service.setRequestProperty("Accept-Charset", "UTF-8");
+//            // impostazione metodo di richiesta GET
+//            service.setRequestMethod("GET");
+//            // attivazione ricezione
+//            service.setDoInput(true);
+//            // connessione al web-service
+//            service.connect();
+//            // verifica stato risposta
+//            status = service.getResponseCode();
+//            if (status != 200) {
+//                return status; // non OK
+//            }
+//            // apertura stream di ricezione da risorsa web
+//            input = new BufferedReader(new InputStreamReader(service.getInputStream(), "UTF-8"));
+//            // ciclo di lettura da web e scrittura in result
+//            String line;
+//            while ((line = input.readLine()) != null) {
+//                result += line + "\n";
+//            }
+//            input.close();
+//
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return status;
+//    }
 
     public int updateAzienda(String nome, String indirizzo, String email, String tutor) {
         int status = 0;
@@ -318,7 +318,7 @@ public class WSConsumer {
             System.out.println(url);
             service = (HttpURLConnection) serverURL.openConnection();
             // impostazione header richiesta . ftp.gestioneagenda.altervista.org
-            service.setRequestProperty("Host", "ftp.gestioneagenda.altervista.org");
+            service.setRequestProperty("Host", "ftp.lorees.altervista.org");
             service.setRequestProperty("Accept", "application/text");
             service.setRequestProperty("Accept-Charset", "UTF-8");
             // impostazione metodo di richiesta GET
@@ -351,7 +351,7 @@ public class WSConsumer {
         return status;
     }
 
-    public int getAllImpegno() {
+    public int getAllAzienda() {
         int status = 0;
         result = "";
 
@@ -360,13 +360,13 @@ public class WSConsumer {
             HttpURLConnection service;
             BufferedReader input;
 
-            String url = prefix + "gestioneImpegni/"
-                    + "getAllImpegno.php";
+            String url = prefix
+                    + "getAllAzienda.php";
             serverURL = new URL(url);
             System.out.println(url);
             service = (HttpURLConnection) serverURL.openConnection();
             // impostazione header richiesta . ftp.gestioneagenda.altervista.org
-            service.setRequestProperty("Host", "ftp.gestioneagenda.altervista.org");
+            service.setRequestProperty("Host", "ftp.lorees.altervista.org");
             service.setRequestProperty("Accept", "application/text");
             service.setRequestProperty("Accept-Charset", "UTF-8");
             // impostazione metodo di richiesta GET
@@ -394,12 +394,9 @@ public class WSConsumer {
 
                 int ID = jsonObject.getInt("ID");
                 Object nome = jsonObject.get("nome");
-                Object descrizione = jsonObject.get("descrizione");
-                Object data = jsonObject.get("data");
-                Object luogo = jsonObject.get("luogo");
-                Object aule = jsonObject.get("aule");
-                Object oraInizio = jsonObject.get("oraInizio");
-                Object oraFine = jsonObject.get("oraFine");
+                Object descrizione = jsonObject.get("indirizzo");
+                Object data = jsonObject.get("email");
+                Object luogo = jsonObject.get("tutor");
                 //scrivo nel terminale
                 System.out.println("------------ELEMENTO " + conta + "------------");
                 System.out.println("ID: " + ID);
@@ -407,12 +404,6 @@ public class WSConsumer {
                 System.out.println("Descrizione: " + descrizione);
                 System.out.println("Data: " + data.toString());
                 System.out.println("Luogo: " + luogo);
-                System.out.println("Aule: " + aule);
-                System.out.println("Ora Inizio: " + oraInizio);
-                System.out.println("Ora Fine: " + oraFine);
-
-                //vecchia versione, si puo rimuovere
-                //result += line + "\r\n";
             }
             input.close();
 
@@ -426,105 +417,105 @@ public class WSConsumer {
         return status;
     }
 
-    public int subscribeImpegno(String utente, String impegno) {
-        int status = 0;
-        result = "";
-
-        try {
-            URL serverURL;
-            HttpURLConnection service;
-            BufferedReader input;
-
-            String url = prefix
-                    + "gestioneImpegni/"
-                    + "subscribeToImpegno.php?"
-                    + "utente=" + URLEncoder.encode(utente, "UTF-8")
-                    + "&impegno=" + URLEncoder.encode(impegno, "UTF-8");
-            serverURL = new URL(url);
-            System.out.println(url);
-            service = (HttpURLConnection) serverURL.openConnection();
-            // impostazione header richiesta . ftp.gestioneagenda.altervista.org
-            service.setRequestProperty("Host", "ftp.gestioneagenda.altervista.org");
-            service.setRequestProperty("Accept", "application/text");
-            service.setRequestProperty("Accept-Charset", "UTF-8");
-            // impostazione metodo di richiesta GET
-            service.setRequestMethod("GET");
-            // attivazione ricezione
-            service.setDoInput(true);
-            // connessione al web-service
-            service.connect();
-            // verifica stato risposta
-            status = service.getResponseCode();
-            if (status != 200) {
-                return status; // non OK
-            }
-            // apertura stream di ricezione da risorsa web
-            input = new BufferedReader(new InputStreamReader(service.getInputStream(), "UTF-8"));
-            // ciclo di lettura da web e scrittura in result
-            String line;
-            while ((line = input.readLine()) != null) {
-                result += line + "\n";
-            }
-            input.close();
-
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return status;
-    }
+//    public int subscribeImpegno(String utente, String impegno) {
+//        int status = 0;
+//        result = "";
+//
+//        try {
+//            URL serverURL;
+//            HttpURLConnection service;
+//            BufferedReader input;
+//
+//            String url = prefix
+//                    + "gestioneImpegni/"
+//                    + "subscribeToImpegno.php?"
+//                    + "utente=" + URLEncoder.encode(utente, "UTF-8")
+//                    + "&impegno=" + URLEncoder.encode(impegno, "UTF-8");
+//            serverURL = new URL(url);
+//            System.out.println(url);
+//            service = (HttpURLConnection) serverURL.openConnection();
+//            // impostazione header richiesta . ftp.gestioneagenda.altervista.org
+//            service.setRequestProperty("Host", "ftp.gestioneagenda.altervista.org");
+//            service.setRequestProperty("Accept", "application/text");
+//            service.setRequestProperty("Accept-Charset", "UTF-8");
+//            // impostazione metodo di richiesta GET
+//            service.setRequestMethod("GET");
+//            // attivazione ricezione
+//            service.setDoInput(true);
+//            // connessione al web-service
+//            service.connect();
+//            // verifica stato risposta
+//            status = service.getResponseCode();
+//            if (status != 200) {
+//                return status; // non OK
+//            }
+//            // apertura stream di ricezione da risorsa web
+//            input = new BufferedReader(new InputStreamReader(service.getInputStream(), "UTF-8"));
+//            // ciclo di lettura da web e scrittura in result
+//            String line;
+//            while ((line = input.readLine()) != null) {
+//                result += line + "\n";
+//            }
+//            input.close();
+//
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return status;
+//    }
 
     //in teoria questo non viene mai richiamato
-    public int get(String paramater, String value) {
-        int status = 0;
-        result = "";
-
-        try {
-            URL serverURL;
-            HttpsURLConnection service;
-            BufferedReader input;
-
-            String url = prefix + "gestioneImpegni/"
-                    + URLEncoder.encode(paramater, "UTF-8") + "="
-                    + URLEncoder.encode(value, "UTF-8");
-            serverURL = new URL(url);
-            service = (HttpsURLConnection) serverURL.openConnection();
-            // impostazione header richiesta
-            service.setRequestProperty("Host", "www.gerriquez.com");
-            service.setRequestProperty("Accept", "application/text");
-            service.setRequestProperty("Accept-Charset", "UTF-8");
-            // impostazione metodo di richiesta GET
-            service.setRequestMethod("GET");
-            // attivazione ricezione
-            service.setDoInput(true);
-            // connessione al web-service
-            service.connect();
-            // verifica stato risposta
-            status = service.getResponseCode();
-            if (status != 200) {
-                return status; // non OK
-            }
-            // apertura stream di ricezione da risorsa web
-            input = new BufferedReader(new InputStreamReader(service.getInputStream(), "UTF-8"));
-            // ciclo di lettura da web e scrittura in result
-            String line;
-            while ((line = input.readLine()) != null) {
-                result += line + "\n";
-            }
-            input.close();
-
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return status;
-    }
+//    public int get(String paramater, String value) {
+//        int status = 0;
+//        result = "";
+//
+//        try {
+//            URL serverURL;
+//            HttpsURLConnection service;
+//            BufferedReader input;
+//
+//            String url = prefix + "gestioneImpegni/"
+//                    + URLEncoder.encode(paramater, "UTF-8") + "="
+//                    + URLEncoder.encode(value, "UTF-8");
+//            serverURL = new URL(url);
+//            service = (HttpsURLConnection) serverURL.openConnection();
+//            // impostazione header richiesta
+//            service.setRequestProperty("Host", "www.gerriquez.com");
+//            service.setRequestProperty("Accept", "application/text");
+//            service.setRequestProperty("Accept-Charset", "UTF-8");
+//            // impostazione metodo di richiesta GET
+//            service.setRequestMethod("GET");
+//            // attivazione ricezione
+//            service.setDoInput(true);
+//            // connessione al web-service
+//            service.connect();
+//            // verifica stato risposta
+//            status = service.getResponseCode();
+//            if (status != 200) {
+//                return status; // non OK
+//            }
+//            // apertura stream di ricezione da risorsa web
+//            input = new BufferedReader(new InputStreamReader(service.getInputStream(), "UTF-8"));
+//            // ciclo di lettura da web e scrittura in result
+//            String line;
+//            while ((line = input.readLine()) != null) {
+//                result += line + "\n";
+//            }
+//            input.close();
+//
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return status;
+//    }
 
     void printResult() {
         String[] arrOfStr = result.split("\",\"");
