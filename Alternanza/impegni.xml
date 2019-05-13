@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<impegni>
+	<nomeCalendario>calendario scolastico</nomeCalendario>
+	<impegno>
+		<nome>giornata creatività</nome>
+		<descrizione>giornata degli studenti in cui si propongono delle attività ricreative di vario genere</descrizione>
+		<data>17/05/2019</data>
+		<luogo>tutta la scuola</luogo>
+		<aule></aule>
+		<oraInizio></oraInizio>
+		<oraFine></oraFine>
+	</impegno>
+	<impegno>
+		<nome>giochi di atletica</nome>
+		<descrizione>giornata in cui si propongono alcune delle discipline di atletica leggera</descrizione>
+		<data>29/05/2019</data>
+		<luogo>campo sportivo</luogo>
+		<aule></aule>
+		<oraInizio>8:30</oraInizio>
+		<oraFine>13:30</oraFine>
+	</impegno>
+	<impegno>
+		<nome>fine della scuola</nome>
+		<descrizione>ultimo giorno di scuola</descrizione>
+		<data>08/06/2019</data>
+		<luogo>LOTTO 1 - LOTTO 2 - LOTTO 3</luogo>
+		<aule></aule>
+		<oraInizio></oraInizio>
+		<oraFine></oraFine>
+	</impegno>
+	<impegno>
+		<nome>prima prova di maturità</nome>
+		<descrizione>prima prova di maturità per i ragazzi di quinta</descrizione>
+		<data>17/05/2019</data>
+		<luogo>LOTTO 1 - LOTTO 2</luogo>
+		<aule></aule>
+		<oraInizio>8:00</oraInizio>
+		<oraFine>14:00</oraFine>
+	</impegno>
+</impegni>
