@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
  *
  * @author gianluca
  */
-public class Agenda {
+public class Alternanza {
 
     private static WSConsumer webService = new WSConsumer();
     private static int scelta = -1;

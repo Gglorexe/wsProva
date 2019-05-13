@@ -5,7 +5,7 @@
  */
 package agenda;
 
-import static agenda.Agenda.Menu;
+import static agenda.Alternanza.Menu;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
