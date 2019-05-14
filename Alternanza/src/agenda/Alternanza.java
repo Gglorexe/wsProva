@@ -133,25 +133,6 @@ public class Alternanza {
         webService.printResult();
     }
 
-    public static void parseAzienda() throws IOException, ParserConfigurationException, SAXException {
-        System.out.println("Inserisci l'URL: ");
-        String url = input.readLine();
-
-        ArrayList<Azienda> azienda = new ArrayList<>();
-        Parser dom = new Parser();
-        azienda = dom.parseDocument(url);
-
-        for (Azienda i : azienda) {
-            System.out.println(i.toString());
-            int result = webService.addAzienda(i.nome, i.indirizzo, i.email, i.tutor);
-            webService.printResult();
-            System.out.println("RISULTATO: " + result);
-            if (result == 200)
-                System.out.println("Azienda inserita correttamente");
-        }
-
-    }
-
     public static void Menu() throws IOException, ParserConfigurationException, SAXException {
         do {
             System.out.println("Benvenuto: " + username);
@@ -161,7 +142,6 @@ public class Alternanza {
             System.out.println("2- deleteImpegno");
             System.out.println("3- updateImpegno");
             System.out.println("4- getAllImpegno");
-            System.out.println("5- parseDocument");
             System.out.println("0- Esci");
 
             scelta = Integer.parseInt(input.readLine());
@@ -183,10 +163,6 @@ public class Alternanza {
             }
             case 4: {
                 getAllImpegno();
-                break;
-            }
-            case 5: {
-                parseAzienda();
                 break;
             }
             case 0: {
