@@ -39,7 +39,6 @@ public class Alternanza_Servlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Alternanza_Servlet at " + request.getContextPath() + "</h1>");
-            out.println("HELLO WORLD!");
             out.println("</body>");
             out.println("</html>");
         }
