@@ -7,6 +7,9 @@ package mainPackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +21,37 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Alternanza_Servlet extends HttpServlet {
 
+    
+    final private String driver = "com.mysql.jdbc.Driver";
+    final private String dbms_url = "jdbc:mysql://localhost/";
+    final private String database = "rubrica";
+    final private String user = "root";
+    final private String password = "";
+    private Connection alternanza_database;
+    private boolean connected;
+    
+    
+    // attivazione servlet (connessione a DBMS)
+    public void init() {
+        String url = dbms_url + database;
+        try {
+            Class.forName(driver);
+            alternanza_database = DriverManager.getConnection(url, user, password);
+            connected = true;
+        } catch (SQLException e) {
+            connected = false;
+        } catch (ClassNotFoundException e) {
+            connected = false;
+        }
+    }
+    
+    // disattivazione servlet (disconnessione da DBMS)
+    public void destroy() {
+        try {
+            alternanza_database.close();
+        } catch (SQLException e) {
+        }
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,6 +77,10 @@ public class Alternanza_Servlet extends HttpServlet {
             out.println("</html>");
         }
     }
+    
+//    public String getParametri(){
+//         
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -57,6 +95,13 @@ public class Alternanza_Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        String name;
+        String number;
+        String description ="";
+        String url;
+        String[] url_section;
+        
     }
 
     /**

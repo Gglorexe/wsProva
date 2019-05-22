@@ -24,7 +24,7 @@ public class WSConsumer {
 
     private String result;
     // http://www.gerriquez.com/web-service-comuni-italiani.html
-    private String prefix = "https://www.gerriquez.com/comuni/ws.php?";
+    private String prefix = "localhost:8080/WS_Alternanza";
 
     WSConsumer() {
         result = "";
@@ -49,7 +49,7 @@ public class WSConsumer {
             serverURL = new URL(url);
             service = (HttpsURLConnection) serverURL.openConnection();
             // impostazione header richiesta
-            service.setRequestProperty("Host", "www.gerriquez.com");
+            service.setRequestProperty("Host", "localhost:8080/WS_Alternanza");
             service.setRequestProperty("Accept", "application/text");
             service.setRequestProperty("Accept-Charset", "UTF-8");
             // impostazione metodo di richiesta GET
