@@ -17,11 +17,11 @@ public class NBWSConsumerGet {
     public static void main(String[] args) {
         WSConsumer webService = new WSConsumer();
         
-        webService.get("dencomune", "Mariano Comense");
+        webService.get("descr", "si");
         webService.printResult();
         
-        webService.get("regione", "lombardia");
-        webService.printResult();
+//        webService.get("regione", "lombardia");
+//        webService.printResult();
     }
     
 }

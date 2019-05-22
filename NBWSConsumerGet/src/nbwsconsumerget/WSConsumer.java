@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -24,7 +25,7 @@ public class WSConsumer {
 
     private String result;
     // http://www.gerriquez.com/web-service-comuni-italiani.html
-    private String prefix = "localhost:8080/WS_Alternanza";
+    private String prefix = "localhost:8080/WS_Server/Loris?";
 
     WSConsumer() {
         result = "";
@@ -40,14 +41,14 @@ public class WSConsumer {
 
         try {
             URL serverURL;
-            HttpsURLConnection service;
+            HttpURLConnection service;
             BufferedReader input;
 
             String url = prefix
                     + URLEncoder.encode(paramater, "UTF-8") + "="
                     + URLEncoder.encode(value, "UTF-8");
             serverURL = new URL(url);
-            service = (HttpsURLConnection) serverURL.openConnection();
+            service = (HttpURLConnection) serverURL.openConnection();
             // impostazione header richiesta
             service.setRequestProperty("Host", "localhost:8080/WS_Alternanza");
             service.setRequestProperty("Accept", "application/text");
@@ -71,6 +72,9 @@ public class WSConsumer {
                 result += line + "\n";
             }
             input.close();
+            
+            //PARSER XMLLL
+            
 
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
