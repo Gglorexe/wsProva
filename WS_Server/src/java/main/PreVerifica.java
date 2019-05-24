@@ -5,6 +5,7 @@
  */
 package main;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -93,7 +94,8 @@ public class PreVerifica extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String action;
+        String name_surname;
         String name;
         String surname;
         String number;
@@ -110,72 +112,108 @@ public class PreVerifica extends HttpServlet {
         // estrazione nominativo da URL
         url = request.getRequestURL().toString();
         url_section = url.split("/");
-        name = url_section[url_section.length - 1];
-        //surname = url_section[url_section.length];
-        if (name == null) {
-            response.sendError(400, "Request syntax error!");
-            return;
-        }
-        if (name.isEmpty()) {
-            response.sendError(400, "Request syntax error!");
-            return;
-        }
-//        if (surname == null) {
-//            response.sendError(400, "Request syntax error!");
-//            return;
-//        }
-//        if (surname.isEmpty()) {
-//            response.sendError(400, "Request syntax error!");
-//            return;
-//        }
-
-        try {
-            String descrizione = request.getParameter("descr");
-            String sql = "SELECT Nome, Numero";
-            if (descrizione != null && descrizione.equals("si")) {
-                sql += ",Descrizione";
-            }
-
-            sql += " FROM agenda WHERE Nome= '" + name + "';";
-
-            // ricerca nominativo nel database
-            Statement statement = rubrica_database.createStatement();
-            ResultSet result = statement.executeQuery(sql);
-            JSONObject obj = new JSONObject();
-            if (result.next()) {
-                number = result.getString(2);
-                do {
-                    obj.put("name:", name);
-                    obj.put("telefono:", number);
-                    if (descrizione != null && descrizione.equals("si")) {
-                        description = result.getString(3);
-                        obj.put("descrizione:", description);
-                    }
-                } while (result.next());
-
-            } else {
-                response.sendError(404, "Entry not found!");
-                result.close();
-                statement.close();
+        action = url_section[url_section.length - 2];
+        if (action.equals("getUtente")) {
+            name_surname = url_section[url_section.length - 1];
+            //surname = url_section[url_section.length];
+            if (name_surname == null) {
+                response.sendError(400, "Request syntax error!");
                 return;
             }
-            result.close();
-            statement.close();
-            // scrittura del body della risposta
-            response.setContentType("text/json;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-
-            try {
-                out.println(obj.toString());
-
-            } finally {
-                out.close();
-                response.setStatus(200); // OK
-
+            if (name_surname.isEmpty()) {
+                response.sendError(400, "Request syntax error!");
+                return;
             }
+            String[] param = name_surname.split("_");
+            name = param[0].toString();
+            surname = param[1].toString();
+            try {
+                String descrizione = request.getParameter("descr");
+                String sql = "SELECT Nome, Cognome, Numero";
+                if (descrizione != null && descrizione.equals("si")) {
+                    sql += ",Descrizione";
+                }
+                sql += " FROM agenda WHERE Nome= '" + name + "' AND"
+                        + " Cognome = '" + surname + "'";
+                System.out.println(sql);
+                // ricerca nominativo nel database
+                Statement statement = rubrica_database.createStatement();
+                ResultSet result = statement.executeQuery(sql);
+                JSONObject obj = new JSONObject();
+                if (result.next()) {
+                    number = result.getString(3);
+                    do {
+                        obj.put("name:", name);
+                        obj.put("cognome:", surname);
+                        obj.put("telefono:", number);
+                        if (descrizione != null && descrizione.equals("si")) {
+                            description = result.getString(4);
+                            obj.put("descrizione:", description);
+                        }
+                    } while (result.next());
+                } else {
+                    response.sendError(404, "Entry not found!");
+                    result.close();
+                    statement.close();
+                    return;
+                }
+                result.close();
+                statement.close();
+                // scrittura del body della risposta
+                response.setContentType("text/json;charset=UTF-8");
+                PrintWriter out = response.getWriter();
 
-        } catch (SQLException e) {
-            response.sendError(500, "DBMS server error!");
+                try {
+                    out.println(obj.toString());
+                } finally {
+                    out.close();
+                    response.setStatus(200); // OK
+                }
+            } catch (SQLException e) {
+                response.sendError(500, "DBMS server error!");
+            }
+        }else if(action.equals("getAll")){
+            try {
+                System.out.println("ENTRATO");
+                String descrizione = request.getParameter("descr");
+                String sql = "SELECT * FROM agenda";
+                System.out.println(sql);
+                // ricerca nominativo nel database
+                Statement statement = rubrica_database.createStatement();
+                ResultSet result = statement.executeQuery(sql);
+                JSONObject obj = new JSONObject();
+                
+                if (result.next()) {
+                    name = result.getString(2);
+                    surname = result.getString(3);
+                    number = result.getString(4);
+                    String descr = result.getString(5);
+                    do {
+                        obj.put("name", name);
+                        obj.put("cognome", surname);
+                        obj.put("telefono", number);
+                        obj.put("descr", descr);
+                    } while (result.next());
+                } else {
+                    response.sendError(404, "Entry not found!");
+                    result.close();
+                    statement.close();
+                    return;
+                }
+                result.close();
+                statement.close();
+                // scrittura del body della risposta
+                response.setContentType("text/json;charset=UTF-8");
+                PrintWriter out = response.getWriter();
+                try {
+                    out.println(obj.toString());
+                } finally {
+                    out.close();
+                    response.setStatus(200); // OK
+                }
+            } catch (SQLException e) {
+                response.sendError(500, "DBMS server error!");
+            }
         }
     }
 
@@ -190,7 +228,41 @@ public class PreVerifica extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        //String jb = request.ù
+        //String line;
+        try {
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = request.getReader();
+            String str = null;
+            while ((str = br.readLine()) != null) {
+                sb.append(str);
+                System.out.println(str);
+            }
+            JSONObject jObj = new JSONObject(sb.toString());
+            String nome = jObj.getString("nome:");
+            String cognome = jObj.getString("cognome:");
+            String numero = jObj.getString("numero:");
+            String descrizione = jObj.getString("descrizione:");
+          
+            JSONObject json = new JSONObject();
+            response.setContentType("application/json");
+            response.setHeader("Cache-Control", "nocache");
+            response.setCharacterEncoding("utf-8");
+            PrintWriter out = response.getWriter();
+        out.print(json.toString());
+
+        }catch(Exception e){
+            
+        }
+
+        if (!connected) {
+            response.sendError(500, "DBMS server error!");
+            return;
+        }
+        
+        BufferedReader input = request.getReader();
+        
     }
 
     /**

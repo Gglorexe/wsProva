@@ -17,19 +17,19 @@ public class NBWSConsumerGet {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        WSConsumer webService = new WSConsumer();
-        System.out.println("Inserisci il nome: ");
-        Scanner tastiera = new Scanner(System.in);
-        String nome = tastiera.nextLine();
-        if (!nome.equals("")) {
-            System.out.println("Desideri anche la descrizione del contatto?:[true/false]:");
-            boolean descr = tastiera.nextBoolean();
-            if(descr)
-                webService.getUtente(nome, true);
-            else
-                webService.getUtente(nome, false);
+//        WSConsumer webService = new WSConsumer();
+//        System.out.println("Inserisci il nome: ");
+//        Scanner tastiera = new Scanner(System.in);
+//        String nome = tastiera.nextLine();
+//        if (!nome.equals("")) {
+//            System.out.println("Desideri anche la descrizione del contatto?:[true/false]:");
+//            boolean descr = tastiera.nextBoolean();
+//            if(descr)
+//                webService.getUtente(nome, true);
+//            else
+//                webService.getUtente(nome, false);
             //webService.printResult();
         }
 
     }
-}
+//}
