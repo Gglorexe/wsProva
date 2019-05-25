@@ -213,7 +213,6 @@ public class WSConsumer {
             Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return status;
-        //return resultParse;
     }
     
     public String CreateJSONString(String nome, String cognome, String numero, String descr){
