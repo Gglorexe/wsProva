@@ -33,6 +33,7 @@ public class PreVerifica extends HttpServlet {
     final private String password = "";
     private Connection rubrica_database;
     private boolean connected;
+    private JSONArray array = new JSONArray();
 
     // attivazione servlet (connessione a DBMS)
     public void init() {
@@ -113,6 +114,7 @@ public class PreVerifica extends HttpServlet {
         url = request.getRequestURL().toString();
         url_section = url.split("/");
         action = url_section[url_section.length - 2];
+        //ritorna l'utente che viene inserito in input da parte dell'utente, se corretto.
         if (action.equals("getUtente")) {
             name_surname = url_section[url_section.length - 1];
             //surname = url_section[url_section.length];
@@ -143,12 +145,12 @@ public class PreVerifica extends HttpServlet {
                 if (result.next()) {
                     number = result.getString(3);
                     do {
-                        obj.put("name:", name);
-                        obj.put("cognome:", surname);
-                        obj.put("telefono:", number);
+                        obj.put("nome", name);
+                        obj.put("cognome", surname);
+                        obj.put("telefono", number);
                         if (descrizione != null && descrizione.equals("si")) {
                             description = result.getString(4);
-                            obj.put("descrizione:", description);
+                            obj.put("descrizione", description);
                         }
                     } while (result.next());
                 } else {
@@ -172,28 +174,33 @@ public class PreVerifica extends HttpServlet {
             } catch (SQLException e) {
                 response.sendError(500, "DBMS server error!");
             }
+            //restituisce tutti gli utenti che ci sono nel database.
         }else if(action.equals("getAll")){
             try {
-                System.out.println("ENTRATO");
+                //System.out.println("ENTRATO");
                 String descrizione = request.getParameter("descr");
                 String sql = "SELECT * FROM agenda";
                 System.out.println(sql);
                 // ricerca nominativo nel database
                 Statement statement = rubrica_database.createStatement();
                 ResultSet result = statement.executeQuery(sql);
-                JSONObject obj = new JSONObject();
                 
                 if (result.next()) {
-                    name = result.getString(2);
-                    surname = result.getString(3);
-                    number = result.getString(4);
-                    String descr = result.getString(5);
                     do {
-                        obj.put("name", name);
+                        JSONObject obj = new JSONObject();
+                        name = result.getString(2);
+                        surname = result.getString(3);
+                        number = result.getString(4);
+                        String descr = result.getString(5);
+                        obj.put("nome", name);
                         obj.put("cognome", surname);
                         obj.put("telefono", number);
-                        obj.put("descr", descr);
-                    } while (result.next());
+                        if (descrizione != null && descrizione.equals("si")) {
+                            description = result.getString(4);
+                            obj.put("descrizione", description);
+                        }
+                        array.put(obj);
+                    } while (result.next());  
                 } else {
                     response.sendError(404, "Entry not found!");
                     result.close();
@@ -206,7 +213,7 @@ public class PreVerifica extends HttpServlet {
                 response.setContentType("text/json;charset=UTF-8");
                 PrintWriter out = response.getWriter();
                 try {
-                    out.println(obj.toString());
+                    out.println(array.toString());
                 } finally {
                     out.close();
                     response.setStatus(200); // OK
@@ -229,42 +236,18 @@ public class PreVerifica extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        //String jb = request.ù
-        //String line;
-        try {
-            StringBuilder sb = new StringBuilder();
-            BufferedReader br = request.getReader();
-            String str = null;
-            while ((str = br.readLine()) != null) {
-                sb.append(str);
-                System.out.println(str);
-            }
-            JSONObject jObj = new JSONObject(sb.toString());
-            String nome = jObj.getString("nome:");
-            String cognome = jObj.getString("cognome:");
-            String numero = jObj.getString("numero:");
-            String descrizione = jObj.getString("descrizione:");
-          
-            JSONObject json = new JSONObject();
-            response.setContentType("application/json");
-            response.setHeader("Cache-Control", "nocache");
-            response.setCharacterEncoding("utf-8");
-            PrintWriter out = response.getWriter();
-        out.print(json.toString());
-
-        }catch(Exception e){
-            
-        }
-
-        if (!connected) {
-            response.sendError(500, "DBMS server error!");
-            return;
-        }
+        String line;
         
         BufferedReader input = request.getReader();
         
+        System.out.println(input.toString());
     }
-
+    
+    public JSONArray createJSONArray(JSONObject obj){
+        //array = new JSONArray();
+        array.put(obj);
+        return array;
+    }
     /**
      * Returns a short description of the servlet.
      *

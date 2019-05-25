@@ -7,6 +7,8 @@ package nbwsconsumerget;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -20,13 +22,44 @@ public class index extends javax.swing.JFrame {
     //int countP = 0;
     WSConsumer webServer = new WSConsumer();
     
+    String result = "";
+    
     /**
      * Creates new form index
      */
     public index() {
         initComponents();
     }
-
+    
+    
+    String parseJSONArray(String input) {
+        String result = "";
+        JSONArray array = new JSONArray(input);
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            String name = obj.getString("name");
+            String number = obj.getString("number");
+            result += "NOME: " + name + " NUMERO: " + number + "\n\r";
+        }
+        return result;
+    }
+    
+    public String stampaTutto(){
+        String stringa = webServer.parseJSONArrayToCSV(webServer.getParseResult());
+            String[] righe = stringa.split("\n\r");
+            String daStampare = "";
+            String numero = "";
+            String cognome = "";
+            String nome = "";
+            for (int i = 0; i < righe.length; i++) {
+                String[] splittata = righe[i].split("/");
+                nome = splittata[0];
+                numero = splittata[1];
+                cognome = splittata[2];
+                daStampare += "NOME: " + nome + "Cognome:" + cognome +"NUM: " + numero + "\n\r";
+            }    
+            return daStampare;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,12 +94,6 @@ public class index extends javax.swing.JFrame {
         jButtonCerca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCercaActionPerformed(evt);
-            }
-        });
-
-        jTextField_Nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_NomeActionPerformed(evt);
             }
         });
 
@@ -161,11 +188,10 @@ public class index extends javax.swing.JFrame {
         // TODO add your handling code here:
         nome = jTextField_Nome.getText();
         cognome = jTextField_Cognome.getText();
-        String result;
+
         
         if(CheckDescr())
             descr = true;
-        
         try {
             webServer.getUtente(nome, cognome, descr);
             result = webServer.getParseResult();
@@ -177,10 +203,6 @@ public class index extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonCercaActionPerformed
 
-    private void jTextField_NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_NomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_NomeActionPerformed
-
     private void jButton_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AddActionPerformed
         // TODO add your handling code here:
         AddFrame add = new AddFrame();
@@ -191,9 +213,11 @@ public class index extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             webServer.getAllUtenti();
-            //esult = webServer.getParseResult();
+            String string = stampaTutto();
+            //result = webServer.getParseResult();
             
-            //jTextArea_Result.append(result);
+            jTextArea_Result.setText("");
+            jTextArea_Result.append(string);
         } catch (Exception ex) {
             Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
         }
