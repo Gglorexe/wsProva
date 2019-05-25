@@ -190,11 +190,6 @@ public class WSConsumer {
             service = (HttpURLConnection) serverURL.openConnection();
             
             service.setRequestProperty("Content-type", "application/json");
-            //service.setRequestProperty("Content-length", Integer.toString(n));
-            // impostazione header richiesta
-            //service.setRequestProperty("Host", "localhost:8080");
-            //service.setRequestProperty("Accept", "application/text");
-            //service.setRequestProperty("Accept-Charset", "UTF-8");
             // impostazione metodo di richiesta POST
             service.setDoOutput(true);
             service.setRequestMethod("POST");  
@@ -209,18 +204,6 @@ public class WSConsumer {
             if (status != 200) {
                 return status; // non OK
             }
-//            // apertura stream di ricezione da risorsa web
-//            input = new BufferedReader(new InputStreamReader(service.getInputStream(), "UTF-8"));
-//            // ciclo di lettura da web e scrittura in result
-//            String line;
-//            String result = "";
-//            while ((line = input.readLine()) != null) {
-//                result += line;
-//                //parsing su line
-//            }
-//            parseResult = parseJSON(result);
-//            //System.out.println(parseJSON(result));
-//            input.close();
 
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(WSConsumer.class.getName()).log(Level.SEVERE, null, ex);

@@ -7,6 +7,7 @@ package main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -237,8 +238,15 @@ public class PreVerifica extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         String line;
-        
-        BufferedReader input = request.getReader();
+        StringBuilder sb = new StringBuilder();
+        BufferedReader input = new BufferedReader(
+                new InputStreamReader(request.getInputStream(), "UTF-8"));
+        // ciclo di lettura da web e scrittura in result
+        String result = "";
+        while ((line = input.readLine()) != null) {
+            result += line;
+        }
+
         
         System.out.println(input.toString());
     }
